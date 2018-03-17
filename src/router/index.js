@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import start from '@/components/start'
 import plainText from '@/components/plainText'
 import simple from '@/components/simple'
+import overview from '@/components/overview'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
           component: plainText
         }
       ]
+    },
+    {
+      path: '/overview',
+      name: 'overview',
+      component: overview
     }
   ]
 })
