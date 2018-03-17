@@ -15,7 +15,7 @@
             <div class="section">
               <b-field>
                 <b-select
-                    v-model="text"
+                    v-model="data.name"
                     placeholder="Centrering"
                     expanded>
                     <option value="simple/simpleText.py">Enkel text</option>
@@ -36,7 +36,10 @@ import firebase from 'firebase'
 export default {
   data () {
     return {
-      text: ''
+      data: {
+        name: '',
+        index: 0
+      }
     }
   },
   methods: {
@@ -50,7 +53,7 @@ export default {
       })
     },
     post () {
-      firebase.database().ref('screen/namer').set(this.text).then(
+      firebase.database().ref('screen/namer').set(this.data).then(
         (onResolve) => {
           this.toast(0, 'Scriptet uppdaterades!')
         }, (onError) => {
@@ -60,8 +63,8 @@ export default {
   },
   created () {
     const loadingComponent = this.$loading.open()
-    firebase.database().ref('screen/namer').once('value').then((snapshot) => {
-      this.text = snapshot.val()
+    firebase.database().ref('screen/namer/name').once('value').then((snapshot) => {
+      this.data.name = snapshot.val()
       loadingComponent.close()
     })
   }
