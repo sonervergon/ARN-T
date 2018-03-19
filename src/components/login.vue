@@ -19,7 +19,7 @@
                 password-reveal>
             </b-input>
         </b-field>
-        <a @click="signIn()" class="button is-link is-rounded">Logga in</a>
+        <a @click="onSignIn()" class="button is-link is-rounded">Logga in</a>
         </div>
         </div>
       </div>
@@ -50,8 +50,10 @@ export default {
     }
   },
   methods: {
-    onSignin () {
+    onSignIn () {
+      const loadingComponent = this.$loading.open()
       this.$store.dispatch('signUserIn', {email: this.email, password: this.password})
+      loadingComponent.close()
     }
   }
 }

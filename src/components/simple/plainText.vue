@@ -83,7 +83,7 @@
     </article>
   </div>
 </div>
-<a @click="post()" class="button is-link is-rounded">Spara text</a>
+<a @click="post()" class="button is-link is-rounded" v-bind:class="[button]" >Spara text</a>
 </div>
 </section>
 </div>
@@ -99,7 +99,8 @@ export default {
         x: 0,
         y: 0,
         alignment: ''
-      }
+      },
+      button: ''
     }
   },
   methods: {
@@ -112,14 +113,15 @@ export default {
         type: code[error]
       })
     },
-    post () {
-      this.data.x = parseInt(this.data.x)
-      this.data.y = parseInt(this.data.y)
-      firebase.database().ref('screen/simpleText').set(this.data).then(
+    post (button) {
+      this.button = 'is-loading'
+      firebase.database().ref('screen/namer').set(this.data).then(
         (onResolve) => {
-          this.toast(0, 'Texten uppdaterades!')
+          this.toast(0, 'Scriptet uppdaterades!')
+          this.button = ''
         }, (onError) => {
           this.toast(1, `Något gick snett.. <BR /> FEL: <BR />` + onError)
+          this.button = ''
         })
     }
   },

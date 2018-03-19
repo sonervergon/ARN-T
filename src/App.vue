@@ -1,7 +1,19 @@
 <template>
   <div>
-    <nav class="navbar is-transparent container">
-      <div id="navbarExampleTransparentExample" class="navbar-menu">
+    <nav class="navbar is-transparent container" role="navigation" aria-label="dropdown navigation">
+      <div class="navbar-brand">
+        <button class="button navbar-burger" @click="navbarBtn()" data-target="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <div id="navMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <p class="navbar-item">
+            {{rightNow}} {{script}}
+          </p>
+        </div>
         <div class="navbar-end">
           <a class="navbar-item"
           v-for="item in menu"
@@ -29,10 +41,13 @@
 </div>
 </template>
 <script>
+import firebase from 'firebase'
 export default {
   data: () => ({
     dialog: false,
-    drawer: null
+    drawer: null,
+    script: '',
+    rightNow: 'Just nu visas: '
   }),
   props: {
     source: String
@@ -46,6 +61,7 @@ export default {
         menu = [
           {text: 'Hem', link: '/'},
           {text: 'Översikt', link: '/overview'},
+          {text: 'Avancerade script', link: '/advanced'},
           {text: 'Enkla script', link: '/simple'}
         ]
       }
@@ -54,6 +70,39 @@ export default {
     userAuthenticated () {
       return this.$store.getters.user !== null && this.$store.getters.user !== undefined
     }
+  },
+  methods: {
+    navbarBtn () {
+      // Get all "navbar-burger" elements
+      var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0)
+      // Check if there are any navbar burgers
+      if ($navbarBurgers.length > 0) {
+        // Add a click event on each of them
+        $navbarBurgers.forEach(function ($el) {
+          // Get the target from the "data-target" attribute
+          var target = $el.dataset.target
+          var $target = document.getElementById(target)
+          // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+          $el.classList.toggle('is-active')
+          $target.classList.toggle('is-active')
+        })
+      }
+    }
+  },
+  created () {
+    firebase.database().ref('screen/namer/name').once('value').then((snapshot) => {
+      var script2 = ''
+      if (script2 === 'script/simplText.py') {
+        this.script = 'Enkel text'
+      } else if (script2 === 'script/kolektivtrafik.py') {
+        this.script = 'Lokaltrafik'
+      } else if (script2 === 'script/examples1.py') {
+        this.script = 'Flyglogga'
+      } else {
+        this.script = ''
+        this.rightNow = ''
+      }
+    })
   }
 }
 </script>

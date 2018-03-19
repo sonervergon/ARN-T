@@ -8,6 +8,7 @@ import 'buefy/lib/buefy.css'
 import VueResource from 'vue-resource'
 import * as firebase from 'firebase'
 import VueFire from 'vuefire'
+import {store} from './store'
 
 Vue.use(VueFire)
 Vue.use(VueResource)
@@ -18,6 +19,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>',
   created () {

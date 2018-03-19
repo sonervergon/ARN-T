@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import start from '@/components/start'
-import plainText from '@/components/plainText'
-import simple from '@/components/simple'
+import plainText from '@/components/simple/plainText'
+import simple from '@/components/simple/simple'
 import overview from '@/components/overview'
 import login from '@/components/login'
 import AuthGuard from './auth-guard'
+import advanced from '@/components/advanced/advanced'
+import traffic from '@/components/advanced/traffic'
 
 Vue.use(Router)
 
@@ -39,6 +41,18 @@ export default new Router({
       name: 'overview',
       component: overview,
       beforeEnter: AuthGuard
+    },
+    {
+      path: '/advanced',
+      name: 'advanced',
+      component: advanced,
+      beforeEnter: AuthGuard,
+      children: [
+        {
+          path: 'SL',
+          component: traffic
+        }
+      ]
     }
   ]
 })

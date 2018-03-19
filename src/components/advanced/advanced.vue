@@ -18,11 +18,10 @@
                 v-model="data.name"
                 placeholder="Centrering"
                 expanded>
-                <option value="simple/simpleText.py">Enkel text</option>
-                <option value="simple/examples1.py">Flyglogga</option>
+                <option value="script/kollektivtrafik.py">Lokaltrafik</option>
               </b-select>
             </b-field>
-            <a @click="post()" class="button is-link is-rounded">Spara</a>
+            <a @click="post('button')" class="button is-link is-rounded" v-bind:class="[button]" >Spara</a>
           </div>
           <div style="margin-bottom:20px;" class="container is-fluid">
             <h2 class="subtitle has-text-centered">
@@ -49,20 +48,20 @@
 <router-view></router-view>
 </div>
 </template>
+
 <script>
 import firebase from 'firebase'
 export default {
-  data () {
-    return {
-      data: {
-        name: '',
-        index: 0
-      },
-      menu: [
-        {text: 'Enkel text', link: '/simple/plain-text'}
-      ]
-    }
-  },
+  data: () => ({
+    data: {
+      name: '',
+      index: 0
+    },
+    button: '',
+    menu: [
+      {text: 'Lokaltrafik', link: '/advanced/SL'}
+    ]
+  }),
   methods: {
     toast (error, message) {
       var code = ['is-success', 'is-danger']
@@ -73,12 +72,15 @@ export default {
         type: code[error]
       })
     },
-    post () {
+    post (button) {
+      this.button = 'is-loading'
       firebase.database().ref('screen/namer').set(this.data).then(
         (onResolve) => {
           this.toast(0, 'Scriptet uppdaterades!')
+          this.button = ''
         }, (onError) => {
           this.toast(1, `Något gick snett.. <BR /> FEL: <BR />` + onError)
+          this.button = ''
         })
     }
   },
