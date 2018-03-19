@@ -13,21 +13,6 @@
             {{item.text}}
           </router-link>
           </a>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="#/simple">
-              Enkla script
-            </a>
-            <div class="navbar-dropdown is-boxed">
-              <a v-for="item in items"
-              :key="item.text"
-              class="navbar-item"
-              >
-              <router-link class="navbar-item" :to="item.link">
-                {{item.text}}
-              </router-link>
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   </nav>
@@ -47,17 +32,28 @@
 export default {
   data: () => ({
     dialog: false,
-    drawer: null,
-    menu: [
-      {text: 'Hem', link: '/'},
-      {text: 'Översikt', link: '/overview'}
-    ],
-    items: [
-      {icon: 'home', text: 'Text', link: '/simple/plain-text'}
-    ]
+    drawer: null
   }),
   props: {
     source: String
+  },
+  computed: {
+    menu () {
+      let menu = [
+        {text: 'Logga in', link: '/login'}
+      ]
+      if (this.userAuthenticated) {
+        menu = [
+          {text: 'Hem', link: '/'},
+          {text: 'Översikt', link: '/overview'},
+          {text: 'Enkla script', link: '/simple'}
+        ]
+      }
+      return menu
+    },
+    userAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
   }
 }
 </script>

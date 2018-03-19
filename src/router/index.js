@@ -4,20 +4,29 @@ import start from '@/components/start'
 import plainText from '@/components/plainText'
 import simple from '@/components/simple'
 import overview from '@/components/overview'
+import login from '@/components/login'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
       path: '/',
       name: 'start',
-      component: start
+      component: start,
+      beforeEnter: AuthGuard
     },
     {
       path: '/simple',
       name: 'simple',
       component: simple,
+      beforeEnter: AuthGuard,
       children: [
         {
           path: 'plain-text',
@@ -28,7 +37,8 @@ export default new Router({
     {
       path: '/overview',
       name: 'overview',
-      component: overview
+      component: overview,
+      beforeEnter: AuthGuard
     }
   ]
 })

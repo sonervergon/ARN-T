@@ -15,21 +15,39 @@
             <div class="section">
               <b-field>
                 <b-select
-                    v-model="data.name"
-                    placeholder="Centrering"
-                    expanded>
-                    <option value="simple/simpleText.py">Enkel text</option>
-                    <option value="simple/examples1.py">Flyglogga</option>
-                </b-select>
+                v-model="data.name"
+                placeholder="Centrering"
+                expanded>
+                <option value="simple/simpleText.py">Enkel text</option>
+                <option value="simple/examples1.py">Flyglogga</option>
+              </b-select>
             </b-field>
-              <a @click="post()" class="button is-link is-rounded">Spara</a>
-            </div>
+            <a @click="post()" class="button is-link is-rounded">Spara</a>
           </div>
-        </section>
+          <div style="margin-bottom:20px;" class="container is-fluid">
+            <h2 class="subtitle has-text-centered">
+              Vilket skript vill du redigera?
+              <br />
+            </h2>
+          </div>
+          <nav class="level">
+            <p v-for="item in menu"
+            :key="item.text"
+            route
+            :to="item.link"
+            class="level-item has-text-centered"
+            >
+            <router-link class="link is-info" :to="item.link">
+              {{item.text}}
+            </router-link>
+          </p>
+        </nav>
       </div>
     </section>
-    <router-view></router-view>
   </div>
+</section>
+<router-view></router-view>
+</div>
 </template>
 <script>
 import firebase from 'firebase'
@@ -39,7 +57,10 @@ export default {
       data: {
         name: '',
         index: 0
-      }
+      },
+      menu: [
+        {text: 'Enkel text', link: '/simple/plain-text'}
+      ]
     }
   },
   methods: {
