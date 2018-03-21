@@ -115,7 +115,7 @@ export default {
     },
     post (button) {
       this.button = 'is-loading'
-      firebase.database().ref('screen/namer').set(this.data).then(
+      firebase.database().ref('screen/simpleText').set(this.data).then(
         (onResolve) => {
           this.toast(0, 'Scriptet uppdaterades!')
           this.button = ''
