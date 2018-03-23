@@ -8,6 +8,8 @@ import login from '@/components/login'
 import AuthGuard from './auth-guard'
 import advanced from '@/components/advanced/advanced'
 import traffic from '@/components/advanced/traffic'
+import admin from '@/components/admin/admin'
+import createUser from '@/components/admin/createUser'
 
 Vue.use(Router)
 
@@ -33,6 +35,18 @@ export default new Router({
         {
           path: 'plain-text',
           component: plainText
+        }
+      ]
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: admin,
+      beforeEnter: AuthGuard,
+      children: [
+        {
+          path: 'create-user',
+          component: createUser
         }
       ]
     },
