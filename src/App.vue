@@ -24,6 +24,7 @@
           <router-link class="navbar-item" :to="item.link">
             {{item.text}}
           </router-link>
+          kkk
           </a>
       </div>
     </div>
